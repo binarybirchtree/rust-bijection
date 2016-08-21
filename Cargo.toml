@@ -20,7 +20,7 @@ authors = ["Binary Birch Tree <binarybirchtree@users.noreply.github.com>"]
 description = "A library for producing bijective functions in Rust."
 documentation = "https://binarybirchtree.github.io/rust-bijection/bijection"
 repository = "https://github.com/binarybirchtree/rust-bijection"
-keywords = ["bijection", "bijective", "function", "bijective function"]
+keywords = ["bijection", "bijective", "function"]
 license = "Apache-2.0"
 include = ["**/*.rs", "Cargo.toml", "LICENSE"]
 
