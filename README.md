@@ -1,5 +1,7 @@
 # Bijection
 
+[![Build Status](https://travis-ci.org/binarybirchtree/rust-bijection.svg)](https://travis-ci.org/binarybirchtree/rust-bijection)
+
 A library for producing bijective functions in Rust.
 
 [Documentation](https://binarybirchtree.github.io/rust-bijection/bijection/struct.Bijection.html)
