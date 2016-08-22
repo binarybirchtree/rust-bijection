@@ -26,17 +26,30 @@ use crypto::{aes, symmetriccipher};
 use crypto::buffer::{BufferResult, ReadBuffer, RefReadBuffer, RefWriteBuffer, WriteBuffer};
 use crypto::digest::Digest;
 use crypto::sha2::Sha256;
+use crypto::sha3::Sha3;
 use crypto::symmetriccipher::{Decryptor, Encryptor};
 
 pub struct Bijection {
-  seed: String,
+  key: [u8; 32],
+  initialization_vector: [u8; 16],
 }
 
 impl Bijection {
   pub fn new (seed: &str) -> Bijection {
-    Bijection {
-      seed: String::from(seed),
-    }
+    let mut bijection = Bijection {
+      key: [0; 32],
+      initialization_vector: [0; 16],
+    };
+
+    let mut sha256 = Sha256::new();
+    sha256.input_str(seed);
+    sha256.result(&mut bijection.key);
+
+    let mut shake128 = Sha3::shake_128();
+    shake128.input_str(seed);
+    shake128.result(&mut bijection.initialization_vector);
+
+    bijection
   }
 }
 
@@ -230,12 +243,7 @@ macro_rules! process_buffer {
     {
       let mut output = Vec::<u8>::new();
 
-      let mut sha256 = Sha256::new();
-      sha256.input_str(&$bijection.seed);
-      let mut hash = [0; 32];
-      sha256.result(&mut hash);
-      let mut cipher = aes::ctr(aes::KeySize::KeySize256, &hash, &hash[..16]);
-
+      let mut cipher = aes::ctr(aes::KeySize::KeySize256, &$bijection.key, &$bijection.initialization_vector);
       let mut read_buffer = RefReadBuffer::new($input);
       let mut raw_write_buffer = [0; 32];
       let mut write_buffer = RefWriteBuffer::new(&mut raw_write_buffer);
