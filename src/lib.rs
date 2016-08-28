@@ -21,7 +21,7 @@
              extern crate crypto;
 #[macro_use] extern crate matches;
 
-use byteorder::{ByteOrder, NativeEndian};
+use byteorder::{ByteOrder, NetworkEndian};
 use crypto::{aes, symmetriccipher};
 use crypto::buffer::{BufferResult, ReadBuffer, RefReadBuffer, RefWriteBuffer, WriteBuffer};
 use crypto::digest::Digest;
@@ -57,7 +57,7 @@ macro_rules! convert_integer {
   ($bijection: expr, $input: expr, $value_size: expr, $writer: ident) => {
     {
       let mut buffer = [0; $value_size];
-      NativeEndian::$writer(&mut buffer, $input);
+      NetworkEndian::$writer(&mut buffer, $input);
       $bijection.convert_bytes(&buffer)
     }
   }
@@ -142,7 +142,7 @@ impl Bijection {
 
 macro_rules! revert_integer {
   ($bijection: expr, $input: expr, $reader: ident) => {
-    Ok(NativeEndian::$reader(&try!($bijection.revert_bytes($input))))
+    Ok(NetworkEndian::$reader(&try!($bijection.revert_bytes($input))))
   }
 }
 
