@@ -15,7 +15,7 @@
 
 [package]
 name = "bijection"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Binary Birch Tree <binarybirchtree@users.noreply.github.com>"]
 description = "A library for producing bijective functions in Rust."
 documentation = "https://binarybirchtree.github.io/rust-bijection/bijection"
